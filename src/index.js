@@ -60,6 +60,7 @@ function onMessageHandler(channel, userstate, msg, self) {
   const isMod = badges.moderator;
   const isModUp = isBroadcaster || isMod;
 
+  //If someone mentions the stream mascot, the bot will greet them with specialized reply
   if (msg.match(/tikuru/gi)) {
     client.say(channel, `Hei @${userstate.username}! Makoisaa päivää sinullekkin! 🐯🐯`);
   }
