@@ -1,0 +1,19 @@
+{
+  "name": "robototo-twitch-bot",
+  "version": "0.0.0",
+  "description": "Yet another Twitch Chat Bot",
+  "main": "src",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "author": "NaitoFaito",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "tmi.js": "^1.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
