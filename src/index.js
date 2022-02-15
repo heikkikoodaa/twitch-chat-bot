@@ -55,7 +55,7 @@ client.connect();
 
 function onMessageHandler(channel, userstate, msg, self) {
   if (self) { return; } //Jätä viesti huomioimatta, jos botti
-  const badges = userstate.badges || {};
+  const badges = userstate.badges || Object.create(null);
   const isBroadcaster = badges.broadcaster;
   const isMod = badges.moderator;
   const isModUp = isBroadcaster || isMod;
