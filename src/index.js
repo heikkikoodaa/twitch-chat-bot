@@ -55,6 +55,10 @@ client.connect();
 
 function onMessageHandler(channel, userstate, msg, self) {
   if (self) { return; } //Jätä viesti huomioimatta, jos botti
+  const badges = userstate.badges || {};
+  const isBroadcaster = badges.broadcaster;
+  const isMod = badges.moderator;
+  const isModUp = isBroadcaster || isMod;
 
   if (msg.match(/tikuru/gi)) {
     client.say(channel, `Hei @${userstate.username}! Makoisaa päivää sinullekkin! 🐯🐯`);
@@ -95,7 +99,7 @@ function onMessageHandler(channel, userstate, msg, self) {
         console.log(`* Suoritti komennon ${commandName}`)
         break;
       case '!startraffle':
-        if (userstate.username !== 'naitofaito') {
+        if (!isBroadcaster) {
           client.say(channel, `Valitan, mutta sinulla ei ole tämän komennon oikeuksia :(`)
           break;
         }
@@ -105,7 +109,7 @@ function onMessageHandler(channel, userstate, msg, self) {
         startRaffle(userstate, channel);
         break;
       case '!stopraffle':
-        if (userstate.username !== 'naitofaito') {
+        if (!isBroadcaster) {
           client.say(channel, `Valitan, mutta sinulla ei ole tämän komennon oikeuksia :(`)
           break;
         }
