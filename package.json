@@ -1,5 +1,5 @@
 {
-  "name": "robototo-twitch-bot",
+  "name": "twitch-bot",
   "version": "0.0.0",
   "description": "Yet another Twitch Chat Bot",
   "main": "src",
