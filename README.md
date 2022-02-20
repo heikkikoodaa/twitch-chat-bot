@@ -3,7 +3,7 @@ A chat bot I'm using while streaming on Twitch
 
 <h1>What exactly is this?</h1>
 
-Basically it's just a small twitch bot used in my streams to do stuff I like it to do. Decided to upload it here if someone is interested in making on themselves. If someone would like to use this as a base to make their own bot, it should be very easy. Just edit the .env file with your own info and it should be good to go.
+Basically it's just a small twitch bot used in my streams to do stuff I like it to do. Decided to upload it here if someone is interested in making one themselves. If someone would like to use this as a base to make their own bot, it should be very easy. Just edit the .env file with your own info and it should be good to go.
 
 <h2>Commands</h2>
 
