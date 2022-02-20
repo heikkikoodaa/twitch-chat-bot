@@ -15,6 +15,7 @@ const commands = [
 let isRaffleOn = false;
 let raffleParticipants = [];
 let intervalId;
+const COMMANDPREFIX = '!';
 const soundCommands = [
   '!eiketaan',
   '!pelottelette',
@@ -68,14 +69,16 @@ function onMessageHandler(channel, userstate, msg, self) {
   //Poista turhat välit viestistä ja muunna pieniksi kirjaimiksi
   const commandName = msg.trim().toLowerCase();
 
+  //Luo siivotusta viestistä array
   const commandArray = commandName.split(' ');
 
   //Tarkista alkaako viesti '!', jolloin kyseessä on komento
-  if (!commandArray[0].startsWith('!')) { return; }
+  const [command, ...args] = msg.trim().split(' ');
+  if (!command.toLowerCase().startsWith(COMMANDPREFIX)) { return; }
 
   //Suorita tunnistettu komento
-  if (checkCommand(commandArray[0])) {
-    switch (commandArray[0]) {
+  if (checkCommand(command.toLowerCase())) {
+    switch (command.toLowerCase()) {
       case '!rolldice':
         if (checkParameters(commandArray, channel)) {
           break;
@@ -104,10 +107,11 @@ function onMessageHandler(channel, userstate, msg, self) {
           client.say(channel, `Valitan, mutta sinulla ei ole tämän komennon oikeuksia :(`)
           break;
         }
-        if (checkParameters(commandArray, channel)) {
-          break;
+        if (args.length > 0) {
+          startRaffle(userstate, channel, args);
+        } else {
+          client.say(channel, `Muista asettaa rafflelle palkinto!`);
         }
-        startRaffle(userstate, channel);
         break;
       case '!stopraffle':
         if (!isBroadcaster) {
@@ -142,7 +146,6 @@ function checkCommand(command) {
 };
 
 function checkParameters(command, channel) {
-  console.log(command);
   if (command.length > 1) {
     client.say(channel, `Tämä komento ei hyväksy ylimääräisiä parametreja!`);
     return true;
@@ -150,19 +153,21 @@ function checkParameters(command, channel) {
 }
 
 //Aloita raffle
-function startRaffle(userstate, channel) {
+function startRaffle(userstate, channel, args) {
   if (isRaffleOn) {
     client.say(channel, `Nyt oli vähän noloa @${userstate.username}... Raffle on jo päällä!`);
   }
 
+  const palkinto = args.join(' ');
+  
   if (!intervalId) {
     intervalId = setInterval(() => {
-      client.say(channel, `Raffle on käynnissä. Jos haluat liittyä mukaan, kirjoita chattiin !liity`);
+      client.say(channel, `Raffle on käynnissä. Arvonnan palkintona ${palkinto}! Jos haluat liittyä mukaan, kirjoita chattiin !liity`);
     }, 600000)
   }
 
   isRaffleOn = true;
-  client.say(channel, `Kaikille katsojille huomioksi! Raffle on käynnistetty. Ilmoittaudu mukaan !liity komennolla!`);
+  client.say(channel, `Kaikille katsojille huomioksi! Raffle on käynnistetty. Palkintona arvonnassa on ${palkinto}! Ilmoittaudu mukaan !liity komennolla!`);
 };
 
 //Lopeta raffle
@@ -181,11 +186,12 @@ function stopRaffle(channel) {
 
   if (raffleParticipants.length !== 0) {
     voittaja = raffleParticipants[Math.floor(Math.random() * raffleParticipants.length)];
-    client.say(channel, `Voittaja on @${voittaja}! Onneksi olkoon! Pistä whisperiä striimaajalle niin pistetään peliavain tulemaan`)
+    client.say(channel, `Voittaja on @${voittaja}! Onneksi olkoon! Pistä whisperiä striimaajalle niin pistetään peliavain tulemaan.`);
     raffleParticipants = [];
+    palkinto = '';
   } else {
-    raffleParticipants = [];
     client.say(channel, `Miten tämmönen voi olla edes mahdollista? Kukaan ei osallistunut kisaan, siispä palkintoa ei jaeta`);
+    raffleParticipants = [];
   }
 };
 
