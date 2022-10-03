@@ -24,7 +24,7 @@ Shows a list of available commands.
 If a raffle is going on, a user can join it with this command.
 
 !startraffle
-Start a raffle. This must be used first before anyone can join. Currently the code explicitly tests if the user inputting this is me, but I'll change that so that it checks wheter the user is an admin.
+Starts a raffle. This must be used first before anyone can join. Currently the code explicitly tests if the user is me, but I'll change that so that it checks whether the user is a moderator.
 
 !stopraffle
 Stops the ongoing raffle and randomly selects a winner from the participants. They are instructed to contact the streamer to get the prize.
